@@ -1,0 +1,16 @@
+class Network:
+    def __init__(self):
+        self.layers = []
+        self.weights = []
+        self.biases = []
+    def add_layers(self,m,n):
+        layer = np.zeros((m,n)) 
+        self.layers.append(layer)
+    def init_variables(self,n,l,vtype):
+        if(vtype=="weight"):
+            np.random.seed(20)
+            variables = np.random.normal(loc=0.0, scale = np.sqrt(2/(n+l)),size = (n,l))
+            self.weights.append(variables)
+        elif(vtype=="bias"):
+            variables = np.zeros((n,l))
+            self.biases.append(variables)
