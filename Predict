@@ -1,0 +1,10 @@
+def predict(layers,weights,biases):
+    ff = Forward_Feed()
+    prediction = []
+    ff.feed_forward(layers,weights,biases)
+    for i in range(layers[-1].shape[0]):
+        _max = np.max(layers[-1][i])
+        for j in range(layers[-1].shape[1]):
+            if (layers[-1][i,j]==_max):
+                prediction.append(j)
+    return prediction
