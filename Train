@@ -1,9 +1,10 @@
-def train(batches,layers,weights,biases,layers2,batch_labels,lr):
+def train(batches,layers,weights,biases,batch_labels,lr):
     ff = Forward_Feed()
-    #watch.start()
     for index in range(len(batches)):
         layers[0] = batches[index]/255
         labels = batch_labels[index]
         ff.feed_forward(layers,weights,biases)
         bp = Back_Propagate()
         bp.prop_back(layers,weights,biases,labels,lr)
+        loss = np.mean(ff.cross_entropy(layers,labels))
+        print(loss)
