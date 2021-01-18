@@ -1,0 +1,28 @@
+import numpy as np
+import pandas as pd
+import math
+import copy
+import matplotlib.pyplot as plt
+
+X = pd.read_csv("mnist/mnist_train.csv")
+np.random.seed(20)
+np.random.shuffle(np.asarray(X))
+Y = X["label"]
+X = X.drop("label",axis=1)
+X = np.asarray(X)[0:1000]
+Y = np.asarray(Y)[0:1000]
+
+_X = pd.read_csv("mnist/mnist_test.csv")
+_Y = _X["label"]
+_X = _X.drop(["label"],axis=1)
+_X = np.asarray(_X)[0:1000]
+_Y = np.asarray(_Y)[0:1000]
+
+global in_size,hidden1_size,hidden2_size,class_size
+in_size= X.shape[1]
+hidden1_size = 200
+hidden2_size = 200
+class_size = 10
+
+Y_enc = one_hot(Y,class_size)
+_Y_enc = one_hot(_Y,class_size)
