@@ -1,0 +1,21 @@
+class Back_Propagate:
+    def relu_derivative(self,X):
+        _X = copy.deepcopy(X)
+        _X = _X>0
+        return _X
+    def cross_entropy_softmax_derivative(self,layers,labels):
+        return (layers[-1]-labels)
+    def prop_back(self,layers,weights,biases,labels,lr):
+            dC  = self.cross_entropy_softmax_derivative(layers,labels)
+            dw = np.dot(layers[-3].T,dC)
+            db = np.sum(dC,axis=0)
+            dl = np.dot(dC,weights[-1].T)
+            weights[-1] = weights[-1] - lr*dw/layers[-1].shape[0]
+            biases[-1] = biases[-1] - lr*db/layers[-1].shape[0]
+            for index in range(len(weights)-2,-1,-1):
+                dC = np.multiply(self.relu_derivative(layers[index+1]),dl)
+                dw = np.dot(layers[index].T,dC)
+                db = np.sum(dC,axis=0)
+                dl = np.dot(dC,weights[index].T)
+                weights[index] = weights[index] - lr*dw/layers[index+1].shape[0]
+                biases[index] = biases[index] - lr*db/layers[index+1].shape[0]
