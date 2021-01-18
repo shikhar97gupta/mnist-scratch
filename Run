@@ -1,0 +1,35 @@
+def run(lr,epochs,batch_size):
+    batches,batch_labels = mini_batches(X,Y_enc,batch_size=batch_size)
+    _batches,_batch_labels = mini_batches(_X,_Y_enc,batch_size=batch_size)
+
+    net = Network()
+    net.add_layers(batch_size,in_size)
+    net.add_layers(batch_size,hidden1_size)
+    #net.add_layers(batch_size,hidden2_size)
+    net.add_layers(batch_size,class_size)
+    net.add_layers(batch_size,class_size)
+    #net.init_variables(hidden1_size,hidden2_size,vtype="weight")
+    #net.init_variables(1,hidden2_size,vtype="bias")
+    
+    net.weights = []
+    net.biases = []
+    net.init_variables(in_size,hidden1_size,vtype="weight")
+    net.init_variables(1,hidden1_size,vtype="bias")
+    net.init_variables(hidden2_size,class_size,vtype="weight")
+    net.init_variables(1,class_size,vtype="bias")
+
+    net.layers[0] = batches
+    print("Running")
+    
+    train_accuracy = []
+    test_accuracy = []
+    for epoch in range(epochs):
+        #lr = float(input("Enter learning rate: "))
+        train(batches,net.layers,net.weights,net.biases,batch_labels,lr)
+    prediction = predict(net.layers,net.weights,net.biases)
+    _prediction = predict(net.layers,net.weights,net.biases)
+    train_acc = (prediction==Y[0:Y.shape[0]]).sum()/X.shape[0]
+    test_acc = (_prediction==_Y[0:_Y.shape[0]]).sum()/_X.shape[0]
+    train_accuracy.append(train_acc)
+    test_accuracy.append(test_acc)
+    return (train_accuracy,test_accuracy)
